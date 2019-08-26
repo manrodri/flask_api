@@ -10,6 +10,18 @@ def verify_password(username, password):
         return False
     return g.user.verify_password(password)
 
+@app.before_request
+@auth.login_required
+def before_request():
+    pass
+
+@auth.error_handler
+def unauthorized():
+    response = jsonify({'status': 401, 'error': 'unauthorized',
+                        'message': 'please authenticate'})
+    response.status_code = 401
+    return response
+
 
 @app.route('/customers/', methods=['GET'])
 def get_customers():
