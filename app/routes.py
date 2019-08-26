@@ -1,7 +1,14 @@
 from app import app
 from app import db, auth
-from flask import jsonify, request
-from app.models import Customer, Product, Item, Order
+from flask import jsonify, request, g
+from app.models import Customer, Product, Item, Order, User
+
+@auth.verify_password
+def verify_password(username, password):
+    g.user = User.query.filter_by(username=username).first()
+    if g.user is None:
+        return False
+    return g.user.verify_password(password)
 
 
 @app.route('/customers/', methods=['GET'])
