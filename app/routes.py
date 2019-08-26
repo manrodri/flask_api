@@ -1,5 +1,5 @@
 from app import app
-from app import db
+from app import db, auth
 from flask import jsonify, request
 from app.models import Customer, Product, Item, Order
 
